@@ -1,6 +1,35 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+import { SITE_URL } from "./src/consts.ts";
+import { isNoindexRoute } from "./src/utils/seo.ts";
 
-// Plain HTML + CSS — no Tailwind, no UI framework. Styling lives in
-// src/styles/main.css as class-based rules. https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: SITE_URL,
+  integrations: [
+    ...(import.meta.env.SITE_URL
+      ? [
+          sitemap({
+            filter: (page) => !isNoindexRoute(new URL(page).pathname),
+          }),
+        ]
+      : []),
+  ],
+  fonts: [
+    {
+      name: "Inter",
+      cssVariable: "--font-inter",
+      provider: fontProviders.local(),
+      options: {
+        variants: [
+          {
+            weight: 400,
+            style: "normal",
+            src: ["./src/assets/fonts/inter-regular.woff2"],
+          },
+        ],
+      },
+    },
+  ],
+  vite: { build: { cssTarget: "safari15.4" } },
+});

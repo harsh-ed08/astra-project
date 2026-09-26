@@ -1,0 +1,7 @@
+dist
+.astro
+node_modules
+
+.lumos-reference
+.lumos-migration
+.shipstudio

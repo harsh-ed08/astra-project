@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # ShipStudio metadata
 .shipstudio/
+
+# Local migration references
+.lumos-reference/
+.lumos-migration/
+.env.*
+!.env.example
